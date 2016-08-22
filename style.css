@@ -1,0 +1,16 @@
+#wrapper{
+	width: 600px;
+	margin: auto;
+	
+}
+a{
+	color:blue;
+	text-decoration: none;
+}
+
+#cat_link{
+	display: block;
+	padding: 5px;
+	border: 1px solid #000000;
+    text-align: center;
+}
