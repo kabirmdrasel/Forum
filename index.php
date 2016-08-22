@@ -1,5 +1,5 @@
 
-
+<!--this is the starting page-->
 <?php  session_start();?>
 <!DOCTYPE html>
 
