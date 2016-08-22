@@ -16,7 +16,7 @@
 
        <body>
             <div id="wrapper">
-                <h2>Forum Login Page</h2>
+                <h2>Forum Login </h2>
             
 
        <?php
