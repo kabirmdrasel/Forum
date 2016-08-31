@@ -2,14 +2,14 @@
 session_start();
 if($_SESSION['uid']){
 	if (isset($_POST['topic_submit'])) {
-		include_once("connect.php");
+		$db= mysqli_connect('localhost','root','','forum');
 		
 		$tcr = $_POST['tcr'];
 		$id = $_POST['id'];
 		
 		
 		$sql2 = "delete from posts where id='".$id."'";
-		$res2 = mysql_query($sql2) or die(mysql_error());
+		$res2 = mysqli_query($db,$sql2);
 		
 }
 }

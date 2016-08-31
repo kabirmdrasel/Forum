@@ -2,30 +2,30 @@
 session_start();
 if($_SESSION['uid']){
 	if (isset($_POST['replySubmit'])) {
-		include_once("connect.php");
+		$db=mysqli_connect('localhost','root','','forum');
 		$creator =  $_SESSION['uid'];
 		$cid = $_POST['cid'];
 		$tid = $_POST['tid'];
 		$reply_content = $_POST['reply_content'];
 		$sql = "insert into posts (category_id, topic_id, post_creator, post_content,post_date) values ('".$cid."','".$tid."','".$creator."','".$reply_content."',now())";
-		$res = mysql_query($sql) or die(mysql_error());
+		$res = mysqli_query($db,$sql);
 		$sql2 = "update categories set last_post_date=now(),last_user_poster='".$creator."' where id='".$cid."' limit 1";
-		$res2 = mysql_query($sql2) or die(mysql_error());
+		$res2 = mysqli_query($db,$sql2);
 		$sql3 = "update topics set topic_reply_date=now(), topic_last_user='".$creator."' where id='".$tid."' limit 1";
-		$res3 = mysql_query($sql3) or die(mysql_error());
+		$res3 = mysqli_query($db,$sql3);
 
 		//mailing
 		$userids[]="";
 		$email="";
         $sql4 = "select post_creator from posts where category_id='".$cid."' and topic_id='".$tid."' group by post_creator";
-        $res4 = mysql_query($sql4) or die(mysql_error());
-        while ($row4 = mysql_fetch_assoc($res4)) {
+        $res4 = mysqli_query($db,$sql4);
+        while ($row4 = mysqli_fetch_assoc($res4)) {
         	$userids[] .= $row4['post_creator'];
         }foreach ($userids as $key) {
         	$sql5 = "select id, email from users where id='".$key."' and forum_notification='1' limit 1";
-        	$res5 = mysql_query($sql5) or die(mysql_error());
-        	if (mysql_num_rows($res5)>0) {
-        		$row5 = mysql_fetch_assoc($res5);
+        	$res5 = mysqli_query($db,$sql5);
+        	if (mysqli_num_rows($res5)>0) {
+        		$row5 = mysqli_fetch_assoc($res5);
         		if ($row5['id'] != $creator) {
         			$email .= $row5['email'].",";
         		}

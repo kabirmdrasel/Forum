@@ -50,18 +50,17 @@
        <hr />
        <div id="content">
           <?php
-          mysql_connect('localhost','root','') or die(mysql_error());
-          mysql_select_db('forum');
+          $db=mysqli_connect('localhost','root','','forum');
           $title="";
           if(isset($_GET['title'])){
               $title = $_GET['title'];
           }
 
           $sql= "select * from topic where category_title='".$title."' order by topic_title asc";
-          $res=mysql_query($sql) or die(mysql_errno());
+          $res=mysqli_query($db,$sql);
           $categories="";
-          if (mysql_num_rows($res)>0) {
-            while ($row=mysql_fetch_assoc($res)) {
+          if (mysqli_num_rows($res)>0) {
+            while ($row=mysqli_fetch_assoc($res)) {
               $id=$row['id'];
               $title=$row['topic_title'];
               $description=$row['topic_description'];

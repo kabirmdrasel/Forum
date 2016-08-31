@@ -41,8 +41,8 @@ session_start();
        <hr />
        <div id="content">
            <?php
-           mysql_connect('localhost','root','') or die(mysql_error());
-           mysql_select_db('forum');
+           $db=mysqli_connect('localhost','root','','forum');
+
 
 
            $cid = $_GET['cid'];
@@ -56,17 +56,17 @@ session_start();
 
            
            $sql = "select * from topics where category_id='".$cid."' and id='".$tid."' Limit 1";
-           $res = mysql_query($sql) or die(mysql_error());
+           $res = mysqli_query($db,$sql);
            
 
-           if (mysql_num_rows($res)==1) {
+           if (mysqli_num_rows($res)==1) {
              echo "<table width='100%'>";
              if ($_SESSION['uid']) {
                echo "<tr><td colspan='2'><input type='submit' value='Add Reply' OnClick=\"window.location= 'post_reply.php?cid=".$cid."&tid=".$tid."'\" /><hr />";
              }else{
               echo"<tr><td colspan='2'><p>Please log in to add your reply.</p><hr /></td></tr>";
              }
-             while ($row=mysql_fetch_assoc($res)) {
+             while ($row=mysqli_fetch_assoc($res)) {
               
               ?>
                 <div class="panel-group">
@@ -78,9 +78,9 @@ session_start();
              <?php
  // var_dump($cid);
                $sql2="select * from posts where category_id='".$cid."' and topic_id='".$tid."'";
-               $res2=mysql_query($sql2) or die(mysql_error());
+               $res2=mysqli_query($db,$sql2);
 
-               while ($row2=mysql_fetch_assoc($res2)) {
+               while ($row2=mysqli_fetch_assoc($res2)) {
                 $tcr=$row2['post_creator'];
                 $id=$row2['id'];
                 ?>
@@ -103,7 +103,7 @@ session_start();
                $old_views=$row['topic_views'];
                $new_views=$old_views+1;
                $sql3="update topics set topic_views='".$new_views."'where category_id='".$cid."' and id='".$tid."' LIMIT 1";
-               $res3=mysql_query($sql3) or die(mysql_error());
+               $res3=mysqli_query($db,$sql3);
 
 
 

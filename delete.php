@@ -26,8 +26,8 @@
        <hr />
        <div id="content">
         <?php
-            mysql_connect('localhost','root','') or die(mysql_error());
-            mysql_select_db('forum');
+           $db= mysqli_connect('localhost','root','','forum');
+
             $tcr="";
             $id="";
             if (isset($_GET['tcr'])) {
@@ -40,9 +40,9 @@
            // var_dump($cid);
 
            $sql= "select * from posts where post_creator='".$tcr."' and id='".$id."' limit 1";
-            $res=mysql_query($sql) or die(mysql_error());
+            $res=mysqli_query($db,$sql);
 
-            while ($row=mysql_fetch_assoc($res)){
+            while ($row=mysqli_fetch_assoc($res)){
                // var_dump($row);
               $t=$row['post_creator'];
               $pc=$row['post_content'];

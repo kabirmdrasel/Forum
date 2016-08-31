@@ -40,8 +40,7 @@ session_start();
        <hr />
        <div id="content">
           <?php
-          mysql_connect('localhost','root','') or die(mysql_error());
-          mysql_select_db('forum');
+          $db=mysqli_connect('localhost','root','','forum');
           $cid = $_GET['cid'];
           $topics=null ;
           if (isset($_SESSION['uid'])) {
@@ -51,18 +50,18 @@ session_start();
           }
 
           $sql="select id from topic where id='".$cid."'";
-          $res =mysql_query($sql) or die(mysql_error());
-          if (mysql_num_rows($res)==1) {
+          $res =mysqli_query($db,$sql);
+          if (mysqli_num_rows($res)==1) {
             $sql2="select * from topics where category_id='".$cid."' order by topic_reply_date DESC";
-            $res2=mysql_query($sql2) or die (mysql_error());
-            if (mysql_num_rows($res2) > 0) {
+            $res2=mysqli_query($db,$sql2);
+            if (mysqli_num_rows($res2) > 0) {
               
               $topics .= "<table width ='100%' style='border-collapse: collapse;'>";
               $topics .= "<tr><td colspan='3'><a href='index.php'>Return to Forum Index</a>".$logged."<hr /></td></tr>";
               $topics .= "<tr style='background-color: #dddddd;'><td>Your Posts</td><td width='65' align='center'>Replies</td><td width='65' align='center'>Views</td></tr>";
               $topics .="<tr><td colspan='3'><hr/></td><tr>";
 
-              while ($row=mysql_fetch_assoc($res2)) {
+              while ($row=mysqli_fetch_assoc($res2)) {
                 $tid=$row['id'];
                 $title=$row['topic_title'];
                 $views=$row['topic_views'];

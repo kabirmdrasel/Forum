@@ -1,5 +1,6 @@
 <?php
- mysql_connect('localhost','root','') or die(mysql_error());
- mysql_select_db('forum');
-
+ $db=new connect('localhost','root','','forum');
+if($db -> connect_error ){
+    die("There may some problem");
+}
 ?>
